@@ -1,25 +1,24 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {Button, Grid} from "@mui/material";
+import AppWelcome from "./components/AppWelcome";
+import ThemeProvider from './theme';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+   <ThemeProvider>
+       <div className="App">
+           <Grid item xs={12} md={8}>
+               <AppWelcome
+                   title={`Welcome back! \n Yawfeeq`}
+                   description="If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything."
+                   img={""}
+                   action={<Button variant="contained">Go Now</Button>}
+               />
+           </Grid>
+
+       </div>
+   </ThemeProvider>
   );
 }
 
