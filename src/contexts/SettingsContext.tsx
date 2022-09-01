@@ -1,58 +1,70 @@
-import { ReactNode, useEffect, createContext } from 'react';
+import {createContext, ReactNode, useEffect} from 'react';
 // hooks
 import useLocalStorage from '../hooks/useLocalStorage';
 // utils
-import getColorPresets, { colorPresets, defaultPreset } from '../utils/getColorPresets';
+import getColorPresets, {colorPresets, defaultPreset} from '../utils/getColorPresets';
 
 // @type
 import {
-  ThemeMode,
-  ThemeLayout,
-  ThemeContrast,
-  ThemeDirection,
-  ThemeColorPresets,
-  SettingsContextProps,
+    SettingsContextProps,
+    SettingsValueProps,
+    ThemeColorPresets,
+    ThemeContrast,
+    ThemeDirection,
+    ThemeLayout,
+    ThemeMode,
 } from '../utils/type';
-import { SettingsValueProps } from '../utils/type';
 
 // ----------------------------------------------------------------------
 export const defaultSettings: SettingsValueProps = {
-  themeMode: 'light',
-  themeDirection: 'ltr',
-  themeContrast: 'default',
-  themeLayout: 'horizontal',
-  themeColorPresets: 'default',
-  themeStretch: false,
+    themeMode: 'light',
+    themeDirection: 'ltr',
+    themeContrast: 'default',
+    themeLayout: 'horizontal',
+    themeColorPresets: 'default',
+    themeStretch: false,
 };
 const initialState: SettingsContextProps = {
-  ...defaultSettings,
-  // Mode
-  onToggleMode: () => {},
-  onChangeMode: () => {},
+    ...defaultSettings,
+    // Mode
+    onToggleMode: () => {
+    },
+    onChangeMode: () => {
+    },
 
-  // Direction
-  onToggleDirection: () => {},
-  onChangeDirection: () => {},
-  onChangeDirectionByLang: () => {},
+    // Direction
+    onToggleDirection: () => {
+    },
+    onChangeDirection: () => {
+    },
+    onChangeDirectionByLang: () => {
+    },
 
-  // Layout
-  onToggleLayout: () => {},
-  onChangeLayout: () => {},
+    // Layout
+    onToggleLayout: () => {
+    },
+    onChangeLayout: () => {
+    },
 
-  // Contrast
-  onToggleContrast: () => {},
-  onChangeContrast: () => {},
+    // Contrast
+    onToggleContrast: () => {
+    },
+    onChangeContrast: () => {
+    },
 
-  // Color
-  onChangeColor: () => {},
-  setColor: defaultPreset,
-  colorOption: [],
+    // Color
+    onChangeColor: () => {
+    },
+    setColor: defaultPreset,
+    colorOption: [],
 
-  // Stretch
-  onToggleStretch: () => {},
+    // Stretch
+    onToggleStretch: () => {
+    },
 
-  // Reset
-  onResetSetting: () => {},
+    // Reset
+    onResetSetting: () => {
+    },
 };
 
 const SettingsContext = createContext(initialState);
@@ -60,170 +72,170 @@ const SettingsContext = createContext(initialState);
 // ----------------------------------------------------------------------
 
 type SettingsProviderProps = {
-  children: ReactNode;
+    children: ReactNode;
 };
 
-function SettingsProvider({ children }: SettingsProviderProps) {
-  const [settings, setSettings] = useLocalStorage('settings', {
-    themeMode: initialState.themeMode,
-    themeLayout: initialState.themeLayout,
-    themeStretch: initialState.themeStretch,
-    themeContrast: initialState.themeContrast,
-    themeDirection: initialState.themeDirection,
-    themeColorPresets: initialState.themeColorPresets,
-  });
-
-  const isArabic = localStorage.getItem('i18nextLng') === 'ar';
-
-  useEffect(() => {
-    if (isArabic) {
-      onChangeDirectionByLang('ar');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isArabic]);
-
-  // Mode
-
-  const onToggleMode = () => {
-    setSettings({
-      ...settings,
-      themeMode: settings.themeMode === 'light' ? 'dark' : 'light',
+function SettingsProvider({children}: SettingsProviderProps) {
+    const [settings, setSettings] = useLocalStorage('settings', {
+        themeMode: initialState.themeMode,
+        themeLayout: initialState.themeLayout,
+        themeStretch: initialState.themeStretch,
+        themeContrast: initialState.themeContrast,
+        themeDirection: initialState.themeDirection,
+        themeColorPresets: initialState.themeColorPresets,
     });
-  };
 
-  const onChangeMode = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSettings({
-      ...settings,
-      themeMode: (event.target as HTMLInputElement).value as ThemeMode,
-    });
-  };
+    const isArabic = localStorage.getItem('i18nextLng') === 'ar';
 
-  // Direction
+    useEffect(() => {
+        if (isArabic) {
+            onChangeDirectionByLang('ar');
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isArabic]);
 
-  const onToggleDirection = () => {
-    setSettings({
-      ...settings,
-      themeDirection: settings.themeDirection === 'rtl' ? 'ltr' : 'rtl',
-    });
-  };
+    // Mode
 
-  const onChangeDirection = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSettings({
-      ...settings,
-      themeDirection: (event.target as HTMLInputElement).value as ThemeDirection,
-    });
-  };
+    const onToggleMode = () => {
+        setSettings({
+            ...settings,
+            themeMode: settings.themeMode === 'light' ? 'dark' : 'light',
+        });
+    };
 
-  const onChangeDirectionByLang = (lang: string) => {
-    setSettings({
-      ...settings,
-      themeDirection: lang === 'ar' ? 'rtl' : 'ltr',
-    });
-  };
+    const onChangeMode = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSettings({
+            ...settings,
+            themeMode: (event.target as HTMLInputElement).value as ThemeMode,
+        });
+    };
 
-  // Layout
+    // Direction
 
-  const onToggleLayout = () => {
-    setSettings({
-      ...settings,
-      themeLayout: settings.themeLayout === 'vertical' ? 'horizontal' : 'vertical',
-    });
-  };
+    const onToggleDirection = () => {
+        setSettings({
+            ...settings,
+            themeDirection: settings.themeDirection === 'rtl' ? 'ltr' : 'rtl',
+        });
+    };
 
-  const onChangeLayout = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSettings({
-      ...settings,
-      themeLayout: (event.target as HTMLInputElement).value as ThemeLayout,
-    });
-  };
+    const onChangeDirection = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSettings({
+            ...settings,
+            themeDirection: (event.target as HTMLInputElement).value as ThemeDirection,
+        });
+    };
 
-  // Contrast
+    const onChangeDirectionByLang = (lang: string) => {
+        setSettings({
+            ...settings,
+            themeDirection: lang === 'ar' ? 'rtl' : 'ltr',
+        });
+    };
 
-  const onToggleContrast = () => {
-    setSettings({
-      ...settings,
-      themeContrast: settings.themeContrast === 'default' ? 'bold' : 'default',
-    });
-  };
+    // Layout
 
-  const onChangeContrast = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSettings({
-      ...settings,
-      themeContrast: (event.target as HTMLInputElement).value as ThemeContrast,
-    });
-  };
+    const onToggleLayout = () => {
+        setSettings({
+            ...settings,
+            themeLayout: settings.themeLayout === 'vertical' ? 'horizontal' : 'vertical',
+        });
+    };
 
-  // Color
+    const onChangeLayout = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSettings({
+            ...settings,
+            themeLayout: (event.target as HTMLInputElement).value as ThemeLayout,
+        });
+    };
 
-  const onChangeColor = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSettings({
-      ...settings,
-      themeColorPresets: (event.target as HTMLInputElement).value as ThemeColorPresets,
-    });
-  };
+    // Contrast
 
-  // Stretch
+    const onToggleContrast = () => {
+        setSettings({
+            ...settings,
+            themeContrast: settings.themeContrast === 'default' ? 'bold' : 'default',
+        });
+    };
 
-  const onToggleStretch = () => {
-    setSettings({
-      ...settings,
-      themeStretch: !settings.themeStretch,
-    });
-  };
+    const onChangeContrast = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSettings({
+            ...settings,
+            themeContrast: (event.target as HTMLInputElement).value as ThemeContrast,
+        });
+    };
 
-  // Reset
+    // Color
 
-  const onResetSetting = () => {
-    setSettings({
-      themeMode: initialState.themeMode,
-      themeLayout: initialState.themeLayout,
-      themeStretch: initialState.themeStretch,
-      themeContrast: initialState.themeContrast,
-      themeDirection: initialState.themeDirection,
-      themeColorPresets: initialState.themeColorPresets,
-    });
-  };
+    const onChangeColor = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSettings({
+            ...settings,
+            themeColorPresets: (event.target as HTMLInputElement).value as ThemeColorPresets,
+        });
+    };
 
-  return (
-    <SettingsContext.Provider
-      value={{
-        ...settings,
+    // Stretch
 
-        // Mode
-        onToggleMode,
-        onChangeMode,
+    const onToggleStretch = () => {
+        setSettings({
+            ...settings,
+            themeStretch: !settings.themeStretch,
+        });
+    };
 
-        // Direction
-        onToggleDirection,
-        onChangeDirection,
-        onChangeDirectionByLang,
+    // Reset
 
-        // Layout
-        onToggleLayout,
-        onChangeLayout,
+    const onResetSetting = () => {
+        setSettings({
+            themeMode: initialState.themeMode,
+            themeLayout: initialState.themeLayout,
+            themeStretch: initialState.themeStretch,
+            themeContrast: initialState.themeContrast,
+            themeDirection: initialState.themeDirection,
+            themeColorPresets: initialState.themeColorPresets,
+        });
+    };
 
-        // Contrast
-        onChangeContrast,
-        onToggleContrast,
+    return (
+        <SettingsContext.Provider
+            value={{
+                ...settings,
 
-        // Stretch
-        onToggleStretch,
+                // Mode
+                onToggleMode,
+                onChangeMode,
 
-        // Color
-        onChangeColor,
-        setColor: getColorPresets(settings.themeColorPresets),
-        colorOption: colorPresets.map((color) => ({
-          name: color.name,
-          value: color.main,
-        })),
+                // Direction
+                onToggleDirection,
+                onChangeDirection,
+                onChangeDirectionByLang,
 
-        // Reset
-        onResetSetting,
-      }}
-    >
-      {children}
-    </SettingsContext.Provider>
-  );
+                // Layout
+                onToggleLayout,
+                onChangeLayout,
+
+                // Contrast
+                onChangeContrast,
+                onToggleContrast,
+
+                // Stretch
+                onToggleStretch,
+
+                // Color
+                onChangeColor,
+                setColor: getColorPresets(settings.themeColorPresets),
+                colorOption: colorPresets.map((color) => ({
+                    name: color.name,
+                    value: color.main,
+                })),
+
+                // Reset
+                onResetSetting,
+            }}
+        >
+            {children}
+        </SettingsContext.Provider>
+    );
 }
 
-export { SettingsProvider, SettingsContext };
+export {SettingsProvider, SettingsContext};
