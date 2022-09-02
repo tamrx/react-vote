@@ -1,9 +1,9 @@
-import { test, expect } from '@playwright/test';
-
+import { test } from '@playwright/test';
+const BASE_URL = 'https://react-vote-eta.vercel.app/';
 test('Test happy case scenario, just add question and vote', async ({ page }) => {
 
-    // Go to http://localhost:3000/
-    await page.goto('http://localhost:3000/');
+    // Go to https://react-vote-eta.vercel.app/
+    await page.goto(BASE_URL);
 
     // Click text=Type your questionType your question >> input[type="text"]
     await page.locator('text=Type your questionType your question >> input[type="text"]').click();
@@ -45,7 +45,7 @@ test('Test happy case scenario, just add question and vote', async ({ page }) =>
 test('Test add some answers and delete them', async ({ page }) => {
 
     // Go to http://localhost:3000/
-    await page.goto('http://localhost:3000/');
+    await page.goto(BASE_URL);
 
     // Click input[name="answerItem"]
     await page.locator('input[name="answerItem"]').click();
