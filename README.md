@@ -16,7 +16,7 @@ You will also see any lint errors in the console.
 
 ### `yarn test`
 
-I used `playwright` to perform end-to-end test, to see the test report you can run ` npx playwright show-report`, after run `yarn test`
+I used `playwright` to perform end-to-end test support browsers like chromium, firefox, webkit, to see the test report you can run ` npx playwright show-report`, after run `yarn test`
 
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.

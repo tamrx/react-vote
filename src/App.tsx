@@ -8,13 +8,14 @@ import {AppContext} from "./contexts/AppContext";
 import {Answer} from "./types";
 import PollVote from "./components/PollVote";
 import PollChart from "./components/PollChart";
+import {DEFAULT_ANSWERS} from "./utils/static";
 
 function App() {
     const pageTitle = 'Sir vote-a-lot';
     document.title = pageTitle;
 
     const [question, setQuestion] = useState<string>("");
-    const [answerList, setAnswerList] = useState<Answer[]>([]);
+    const [answerList, setAnswerList] = useState<Answer[]>(DEFAULT_ANSWERS);
     const [answerItem, setAnswerItem] = useState<string>("");
     const [votesList, setVotesList] = useState<Answer[]>([]);
 
@@ -49,7 +50,7 @@ function App() {
                 setAnswerList([...answerList.filter((v) => v.id !== payload.answer.id), payload.answer]);
                 return;
             case 'RESET':
-                setAnswerList([]);
+                setAnswerList(DEFAULT_ANSWERS);
                 setVotesList([]);
                 setAnswerItem('');
                 setQuestion('');

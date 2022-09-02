@@ -18,6 +18,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import {Answer} from "../types";
 import {AppContext} from "../contexts/AppContext";
+import {THRESHOLD} from "../utils/static";
 
 interface AnswerProps {
     title: string;
@@ -30,7 +31,6 @@ export default function PollAnswer({title}: AnswerProps) {
     const answerItem = dispatchPollEvent('GET_ANSWER');
     // -- variables
     const answerCount = answerList?.length || 0;
-    const THRESHOLD = 10;
 
     // -- functions
     const generateId = () => {
@@ -77,11 +77,11 @@ export default function PollAnswer({title}: AnswerProps) {
     }
 
 
-    const displayAnswers = answerList.map((item: Answer, index: number) => (
-        <List key={item.id}>
+    const displayAnswers = answerList.sort((a:any, b:any) => a.id - b.id).map((item: Answer, index: number) => (
+        <List e2e-id={`answer-${index}`} key={item.id}>
             <ListItem
                 secondaryAction={
-                    <IconButton edge="end" aria-label="delete" onClick={() => deleteItem(item.id)}>
+                    <IconButton edge="end" aria-label="delete" disabled={index < 2} onClick={() => deleteItem(item.id)}>
                         <DeleteIcon/>
                     </IconButton>
                 }
@@ -89,6 +89,7 @@ export default function PollAnswer({title}: AnswerProps) {
                 <Badge badgeContent={index + 1} color="primary">
                     <ListItemText>
                         <TextField
+                            e2e-id={`text-field-answer-edit-${index}-${item.id}`}
                             disabled={item?.text?.length >= 80}
                             inputProps={{ maxLength: 80 }}
                             size={'small'}
@@ -108,6 +109,7 @@ export default function PollAnswer({title}: AnswerProps) {
         <Card sx={{margin: '20px 0'}}>
             <CardHeader title={title} subheader={`${answerCount} / ${THRESHOLD}`} sx={{textAlign: 'left'}} action={
                 <Button
+                    e2e-id={'btn-reset'}
                     variant={'contained'}
                     color={'error'}
                     onClick={() => dispatchPollEvent('RESET')}
@@ -120,10 +122,12 @@ export default function PollAnswer({title}: AnswerProps) {
                     <Typography sx={{color: '#8e8e8e'}} component={'p'}><small>No options, You can add the options
                         answers bellow</small></Typography>}
                 <Divider sx={{my: 2}}/>
+
                 <Grid sx={{float: 'left', mb: 4, display: 'flex', justifyContent: 'space-between'}}>
                     <Tooltip title={answerCount >= THRESHOLD ? `You can't add more than ${THRESHOLD} answers` : 'Add Answer'}>
                         <>
                             <TextField
+                                e2e-id={'text-field-answer'}
                                 type="text"
                                 name="answerItem"
                                 inputProps={{ maxLength: 80 }}
@@ -138,7 +142,7 @@ export default function PollAnswer({title}: AnswerProps) {
                                 onKeyPress={handleKeyPress}
                             />
 
-                            <Button disabled={answerCount >= THRESHOLD} variant={'contained'} onClick={handleAdd}><AddIcon/></Button>
+                            <Button e2e-id={'btn-add'} disabled={answerCount >= THRESHOLD} variant={'contained'} onClick={handleAdd}><AddIcon/></Button>
                         </>
                     </Tooltip>
                 </Grid>
