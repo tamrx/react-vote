@@ -15,6 +15,7 @@ function App() {
 
     const [question, setQuestion] = useState<string>("");
     const [answerList, setAnswerList] = useState<Answer[]>([]);
+    const [answerItem, setAnswerItem] = useState<string>("");
     const [votesList, setVotesList] = useState<Answer[]>([]);
 
     const dispatchPollEvent = (actionType: string, payload: any) => {
@@ -28,6 +29,11 @@ function App() {
             case 'SET_QUESTION':
                 setQuestion(payload.question);
                 return;
+            case 'SET_ANSWER':
+                setAnswerItem(payload.answer);
+                return;
+            case 'GET_ANSWER':
+                return answerItem;
             case 'ADD_VOTES':
                 const TempArray = votesList.filter((v) => v.id !== payload.vote.id);
                 setVotesList([...TempArray, payload.vote]);
@@ -45,6 +51,8 @@ function App() {
             case 'RESET':
                 setAnswerList([]);
                 setVotesList([]);
+                setAnswerItem('');
+                setQuestion('');
                 return;
             default:
                 return;
@@ -59,15 +67,13 @@ function App() {
                         {pageTitle}
                     </Typography>
                     <Grid container spacing={4}>
-                        <Grid item xs={4}>
+                        <Grid item xs={6}>
                             <PollQuestion title={`Question`}/>
                             <PollAnswer title={'Answers'}/>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={5}>
                             <PollVote />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <PollChart  />
+                            <PollChart />
                         </Grid>
                     </Grid>
                 </div>

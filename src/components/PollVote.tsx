@@ -77,7 +77,7 @@ export default function PollVote() {
                     </CardContent>
                 </Card>
                 : (
-                    <Card sx={{minHeight: 390}}>
+                    <Card sx={{minHeight: 350}}>
                         <CardHeader sx={{textAlign: 'left', color: '#8e8e8e'}} title={'No question or answers added.'}/>
                     </Card>
                 )

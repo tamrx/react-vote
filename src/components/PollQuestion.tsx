@@ -32,6 +32,8 @@ export default function PollQuestion({title, ...other}: PollCardProps) {
                 <TextField
                     id="outlined-multiline-flexible"
                     label="Type your question"
+                    inputProps={{ maxLength: 80 }}
+                    disabled={question?.text?.length >= 80}
                     size={'small'}
                     fullWidth
                     value={question}
