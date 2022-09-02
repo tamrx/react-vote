@@ -51,6 +51,7 @@ export default function PollVote() {
                                         return (
                                             <React.Fragment key={`${index}-${key}`}>
                                                 <FormControlLabel
+                                                    e2e-id={`answer-radio-${index}-${key}`}
                                                     label={item.text}
                                                     value={item.id}
                                                     control={<Radio onClick={() => setCurrentVote(item)}/>}
@@ -66,6 +67,7 @@ export default function PollVote() {
                         <Divider sx={{my: 2}}/>
                         <Grid>
                             <Button
+                                e2e-id={'btn-vote'}
                                 disabled={!(answers.length > 0)}
                                 variant={'contained'}
                                 fullWidth
@@ -77,7 +79,7 @@ export default function PollVote() {
                     </CardContent>
                 </Card>
                 : (
-                    <Card sx={{minHeight: 390}}>
+                    <Card sx={{minHeight: 350}}>
                         <CardHeader sx={{textAlign: 'left', color: '#8e8e8e'}} title={'No question or answers added.'}/>
                     </Card>
                 )

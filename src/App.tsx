@@ -8,13 +8,15 @@ import {AppContext} from "./contexts/AppContext";
 import {Answer} from "./types";
 import PollVote from "./components/PollVote";
 import PollChart from "./components/PollChart";
+import {DEFAULT_ANSWERS} from "./utils/static";
 
 function App() {
     const pageTitle = 'Sir vote-a-lot';
     document.title = pageTitle;
 
     const [question, setQuestion] = useState<string>("");
-    const [answerList, setAnswerList] = useState<Answer[]>([]);
+    const [answerList, setAnswerList] = useState<Answer[]>(DEFAULT_ANSWERS);
+    const [answerItem, setAnswerItem] = useState<string>("");
     const [votesList, setVotesList] = useState<Answer[]>([]);
 
     const dispatchPollEvent = (actionType: string, payload: any) => {
@@ -28,6 +30,11 @@ function App() {
             case 'SET_QUESTION':
                 setQuestion(payload.question);
                 return;
+            case 'SET_ANSWER':
+                setAnswerItem(payload.answer);
+                return;
+            case 'GET_ANSWER':
+                return answerItem;
             case 'ADD_VOTES':
                 const TempArray = votesList.filter((v) => v.id !== payload.vote.id);
                 setVotesList([...TempArray, payload.vote]);
@@ -43,8 +50,10 @@ function App() {
                 setAnswerList([...answerList.filter((v) => v.id !== payload.answer.id), payload.answer]);
                 return;
             case 'RESET':
-                setAnswerList([]);
+                setAnswerList(DEFAULT_ANSWERS);
                 setVotesList([]);
+                setAnswerItem('');
+                setQuestion('');
                 return;
             default:
                 return;
@@ -59,15 +68,13 @@ function App() {
                         {pageTitle}
                     </Typography>
                     <Grid container spacing={4}>
-                        <Grid item xs={4}>
+                        <Grid item xs={6}>
                             <PollQuestion title={`Question`}/>
                             <PollAnswer title={'Answers'}/>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={5}>
                             <PollVote />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <PollChart  />
+                            <PollChart />
                         </Grid>
                     </Grid>
                 </div>

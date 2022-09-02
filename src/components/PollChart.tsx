@@ -2,7 +2,7 @@
 import {Card, CardHeader, LinearProgress, Stack, Typography} from '@mui/material';
 // utils
 import {fPercent} from '../utils/formatNumber';
-import {useContext} from "react";
+import React, {useContext} from "react";
 import {AppContext} from "../contexts/AppContext";
 
 // ----------------------------------------------------------------------
@@ -17,13 +17,21 @@ export default function PollChart() {
     const { dispatchPollEvent } = useContext(AppContext);
     const votes = dispatchPollEvent('GET_VOTES');
     const question = dispatchPollEvent('GET_QUESTION');
+    const result = votes.reduce(function (acc: number, obj: any) { return acc + obj.count; }, 0);
 
+    if(!(votes.length > 0)) {
+        return (
+            <Card sx={{ mt: 2, minHeight: 350}}>
+                <CardHeader sx={{textAlign: 'left', color: '#8e8e8e'}} title={'Chart data empty.'}/>
+            </Card>
+        )
+    }
     return (
-        <Card>
-            <CardHeader title={question} />
+        <Card sx={{ mt: 2}}>
+            <CardHeader title={question} subheader={`Total votes: ${result}`} />
             <Stack spacing={4} sx={{ p: 3 }}>
                 {votes.sort((a: any,b: any) => a.count - b.count).map((vote: ItemProps) => (
-                    <ProgressItem key={vote.text} vote={vote} />
+                    <ProgressItem key={vote.id} vote={vote} />
                 ))}
             </Stack>
         </Card>
